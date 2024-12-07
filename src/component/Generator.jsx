@@ -2,8 +2,14 @@ import { useState } from "react";
 
 export const Generator = () => {
   const [rendumNumber, setNumber] = useState("G9r87#76OqpK9ws@");
+  const [defNumber, setSelectnumber] = useState(16);
+
+  const passwordLength = (e) => {
+    let selectednumber = e.target.value;
+    setSelectnumber(selectednumber);
+  };
   const rendomGenerate = () => {
-    let number = 16;
+    let number = defNumber;
     const chracters =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$*%!&";
     let rendGen = "";
@@ -15,6 +21,16 @@ export const Generator = () => {
 
     setNumber(rendGen);
   };
+  let copyPassword=()=>{
+   if(rendumNumber){
+    navigator.clipboard.writeText(rendumNumber)
+    .then(()=>{
+      alert("Copy Password")
+    })
+  }
+  }
+
+
   return (
     <div className="container mx-auto px-10 bg-gray-200">
       <h1 className="text-3xl font-bold text-center my-6 text-cyan-500">
@@ -33,7 +49,7 @@ export const Generator = () => {
                 value={rendumNumber}
               />
 
-              <svg
+              <svg onClick={copyPassword}
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"
                 className="absolute w-5 h-5 top-6 right-2.5 text-slate-600"
@@ -58,19 +74,22 @@ export const Generator = () => {
         </h1>
         <label
           for="countries"
-          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
         >
           Select Password Length
         </label>
         <select
+          onChange={passwordLength}
           id="countries"
-          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
           <option selected>Select</option>
           <option value="8">8</option>
           <option value="10">10</option>
           <option value="12">12</option>
-          <option selected value="16">16</option>
+          <option selected value="16">
+            16
+          </option>
           <option value="18">18</option>
           <option value="20">20</option>
           <option value="30">30</option>
