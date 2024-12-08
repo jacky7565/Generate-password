@@ -1,35 +1,74 @@
 import { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Generator = () => {
   const [rendumNumber, setNumber] = useState("G9r87#76OqpK9ws@");
   const [defNumber, setSelectnumber] = useState(16);
+  const [checkUpperCase, setUpperCheck] = useState(false);
+  const [checkLowerCase, setLowerCheck] = useState(false);
+  const [checkNumberCase, setnumberCheck] = useState(false);
+  const [checksymbolCase, setSymbolCheck] = useState(false);
+  // console.log(upperCase)
 
   const passwordLength = (e) => {
     let selectednumber = e.target.value;
     setSelectnumber(selectednumber);
   };
   const rendomGenerate = () => {
+
+    
     let number = defNumber;
-    const chracters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$*%!&";
+    let characters = "";
+
+    if (checkUpperCase) {
+      characters += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    }
+    
+    if (checkLowerCase) {
+      characters += "abcdefghijklmnopqrstuvwxyz";
+    }
+    
+    if (checkNumberCase) {
+      characters += "0123456789";
+    }
+    
+    if (checksymbolCase) {
+      characters += "!@#$%^&*";
+    }
+
+    // console.log(chracters)
+    
     let rendGen = "";
     for (let i = 0; i < number; i++) {
-      let rendomIndex = Math.floor(Math.random() * chracters.length);
+      let rendomIndex = Math.floor(Math.random() * characters.length);
 
-      rendGen += chracters[rendomIndex];
+      rendGen += characters[rendomIndex];
     }
 
     setNumber(rendGen);
   };
-  let copyPassword=()=>{
-   if(rendumNumber){
-    navigator.clipboard.writeText(rendumNumber)
-    .then(()=>{
-      alert("Copy Password")
-    })
-  }
-  }
+  let copyPassword = () => {
+    if (rendumNumber) {
+      navigator.clipboard.writeText(rendumNumber).then(() => {
+        toast.success("Copied to clipboard!", { position: "top-center" });
+        alert("Copy Clipboard");
+      });
+    }
+  };
 
+  let checkUpperhandler = (e) => {
+    setUpperCheck(e.target.checked);
+  };
+  let checkLowerhandler = (e) => {
+    setLowerCheck(e.target.checked);
+  };
+  let checkNumberHandler = (e) => {
+    setnumberCheck(e.target.checked);
+  };
+  let checkSymbolHandler = (e) => {
+    setSymbolCheck(e.target.checked);
+  };
 
   return (
     <div className="container mx-auto px-10 bg-gray-200">
@@ -49,7 +88,8 @@ export const Generator = () => {
                 value={rendumNumber}
               />
 
-              <svg onClick={copyPassword}
+              <svg
+                onClick={copyPassword}
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"
                 className="absolute w-5 h-5 top-6 right-2.5 text-slate-600"
@@ -68,19 +108,15 @@ export const Generator = () => {
           </div>
         </div>
       </div>
-      <div className="bg-red">
+      <div className="container mx-auto px-4">
         <h1 className="text-2xl font-bold text-center my-6 text-black-500">
           Setting
         </h1>
-        <label
-          for="countries"
-          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-        >
+        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
           Select Password Length
         </label>
         <select
           onChange={passwordLength}
-          id="countries"
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
           <option selected>Select</option>
@@ -94,6 +130,53 @@ export const Generator = () => {
           <option value="20">20</option>
           <option value="30">30</option>
         </select>
+
+        <div className="flex items-center mb-4">
+          <input
+            onChange={checkUpperhandler}
+            type="checkbox"
+            value=""
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          />
+          <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            Lowercase Letters
+          </label>
+        </div>
+        <div className="flex items-center">
+          <input
+            onChange={checkLowerhandler}
+            type="checkbox"
+            value=""
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          />
+          <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            Uppercase Letters
+          </label>
+        </div>
+
+        <div className="flex items-center">
+          <input
+            onChange={checkNumberHandler}
+            type="checkbox"
+            value=""
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          />
+          <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            Number
+          </label>
+        </div>
+
+        <div className="flex items-center">
+          <input
+            onChange={checkSymbolHandler}
+            type="checkbox"
+            value=""
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          />
+          <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+            Symbol
+          </label>
+        </div>
       </div>
     </div>
   );
